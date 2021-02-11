@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title></title>
+	<!-- Including jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<style>
+	#alert{display:none}
+	.btn-xs{
+		padding: 1px 5px;
+		font-size: 80%;
+	}
+	.mt30{margin-top:30px}
+	.mt5{margin-top:5px}
+	</style>
+  </head>
+
+  <body>
+
+
+    <!-- Page Content -->
+    <div class="container"><!--RECOMMENDED: create an account with google and create a fresh API key in case of updates -->
+	<nav>
+	<p><a href="cchessmore.github.io/portfolio">Back to GitHub Portfolio</a></p>
+	</nav>
+	<div class="dropdown" style="position:absolute;top:85px;z-index:2;">
+	  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Create New...
+	  </a>
+	  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index=3">
+		<button class="dropdown-item" id="btn-marker-create" >Create Marker</button>
+		<button class="dropdown-item" id="btn-circle-create" >Create Circle</button>
+		<button class="dropdown-item" id="btn-polyline-create" >Create Polyline</button>
+		<button class="dropdown-item"id="btn-polygon-create" >Create Polygon</button>
+		<button class="dropdown-item"id="btn-building-create" >Create Building</button>
+		<button class="dropdown-item"id="btn-parking-create" >Create Parking</button>
+		<button class="dropdown-item"id="btn-tour-create" >Create Tour</button>
+	  </div>
+	</div>
+
+<form  style="margin-left:10rem;position:absolute;margin-top:85px;width:15%;" id="cust_id">
+</form>
+		<div>
+		<button class="btn btn-warning disabled"id="undoLast" style="margin-left:35rem;margin-top:36px;">Undo Last Shape</button>
+		</div>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-9 p-0 m-0">
+			<div class="top-map" style="width:100%;height:95vh;margin-top:10px;margin-bottom:10px;">
+				<div style="width: 100%; height: 100%;" id="map"></div>
+			</div>
+		</div>
+		<div class="col-3">
+			<div id="property-head" style="margin-bottom:-3rem;display:none;">
+			<h4>Shape Properties</h4>
+			</div>
+			<div>
+			<form id='buildingForm' class = "form-shape" style='display: none;'>
+			Building Name:<input style='display:none;' name='bldgName' type='text' class="form-control"/>
+			<select class='custom-select' multiple></select>			<button type="submit" style='display: none;'class="btn btn-primary">Finish Building</button>
+			</form>
+			</div>
+			<div>
+			<form id='tourForm' class = "form-shape" style='display: none;'>
+			Tour Name:<input name='tourName' type='text' class="form-control"/>
+			<button type="submit" class="btn btn-primary">Finish Tour</button>
+			</form>
+			</div>
+			<div>
+			<form id='parkingForm' class = "form-shape" style='display: none;'>
+			Parking Name:<input name='parkingName' type='text' class="form-control"/>
+			<button type="submit" class="btn btn-primary">Finish Parking</button>
+			</form>
+			</div>
+			<div>
+				<form class="form-group form-shape" id='polygonForm' style="display:none;">
+					Name of item:<input class="form-control" style="" type='text' name='name'/><br />
+					Picture URL:<input class="form-control" style="" type='text' name='picture'/><br />
+					Enter details:<input class="form-control" style="" type='text' name='description' /><br />
+					Pick a color for the shape outline:<input class="form-control" style="" type='color' name='strokeColor' /><br />
+					Thickness of line/border in pixels:<input type='number' name='strokeWeight' value="1"  /><br />
+					Opacity (0 to 1.0) of shape:<input class="form-control"type='number' step='0.01' style="" name='fillOpacity' value="1" /> <br />
+					Pick a color to fill the shape:<input class="form-control" style="" type='color' name='fillColor'/><br />
+					<button  class = "btn btn-primary" type='submit' id='apply'>Finish Polygon</button>
+				</form>
+			</div>	
+			<div>
+			<form  class="form-group form-shape" id='polylineForm' style = "top:20px;margin-top: 4.5rem;display:none;">
+			Name of item:<input class="form-control" style="" type='text' name='name'/><br />
+			Description:<input class="form-control" style="" type='text' name='description'/><br />
+			Opacity (0 to 1.0) of shape:<input class="form-control"type='number' step='0.01' style="" name='fillOpacity' value="1" /> <br />
+			Pick a color for the line:<input class="form-control" style="" type='color' name='strokeColor'/><br />
+			Thickness of line in pixels:<input class="form-control" style="" type='number' name='strokeWidth' value="1" /><br />
+			<button class = "btn btn-primary" type='submit' id='apply'>Finish Line</button>
+			</form>
+			</div>
+			<div>
+			<form class="form-group form-shape" id='circleForm' style="top:20px;margin-top: 4.5rem;display:none;">
+			Name of item:<input class="form-control" style=""  type='text' name='name'/><br />
+			Item description:<input class="form-control" type='textarea' style=";" name='description'/><br />
+			Radius (in meters):<input class="form-control" style=""  type='number' step="0.1" name='radius' value="10" /><br />
+			Pick a color for the shape outline:<input class="form-control" style="" type='color' name='strokeColor' /><br />
+			Thickness of line/border in pixels:<input class="form-control" style=";"type='number' name='strokeWeight' value="1" /><br />
+			Opacity (0 to 1.0) of shape edge:<input class="form-control" type='number' step='0.01' style="" name='strokeOpacity' value="1.0" /> <br />
+			Opacity (0 to 1.0) of shape fill:<input class="form-control" type='number' step='0.01' style="" name='fillOpacity'/> <br />
+			Pick a color to fill the shape:<input class="form-control" style="" type='color' name='fillColor'/><br />
+			<button  class = "btn btn-primary"  id='circleSubmit' type='submit'>Apply Changes</button>
+			</form>
+			</div>
+			<div>
+			<form class="form-group form-shape" id='markerForm' style="top:20px;margin-top: 4.5rem;display:none;">
+			Name of item:<input class="form-control" style=""type='text' name='name'/><br />
+			Enter details:<input class="form-control" style="" type='text' name='description' /><br />
+			Picture filepath:<input class="form-control" style="" type='text' name='picture'/><br />
+			Title of info URL (optional):<input class="form-control" type='text' style="" name='urlTitle'/><br />
+			Enter URL here (optional):<input class="form-control" type='text' style="" name='infoURLLink'/><br />
+			<button  class = "btn btn-primary"  id='markerSubmit' type='submit'>Apply Changes</button>
+			</form>
+			</div>
+			<div>
+			<button id='delete' style="display:none;" class="form-group form-shape btn btn-warning" type='submit'>Delete Shape</button>
+			<button id='cancel' style="display:none;" class="form-group form-shape btn btn-critical">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+ <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script src="mapScript.js"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSTJp6Xoj_V1pxzJWE7hAJJV5uP6vOGcw&callback=initMap"></script>
+	</body>
+
+</html>
