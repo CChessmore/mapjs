@@ -1,4 +1,4 @@
-###MapJS Description
+<h2><b>MapJS</b></h2>
 
 This piece of code is meant to allow users to create shapes of various types using the Google Maps API. This is part of a collaborative project at FHSU during my undergraduate studies. The final product included the ability to save multiple shapes into a "layer".
 
